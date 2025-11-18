@@ -11,8 +11,8 @@
 </head>
 <body>
 
-  <header>
-     <div class="navbar">
+<header>
+    <div class="navbar">
         <!-- LOGO -->
         <div class="logo-container">
             <div class="logo-icone"></div>
@@ -20,13 +20,13 @@
 
  <nav>
  
-            <ul class="menu">
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./sobre_o_judo.html">Sobre o Judô</a></li>
-            <li><a href="./etica_do_judo.html">Ética do Judô</a></li>
-                <li><a href="./beneficios.html">Benefícios</a></li>
-            <li><a href="./sobre_mim.html">Sobre Mim</a></li>
-        </ul>
+            <div class="menu">
+            <span><a href="./index.html">Home</a></span>
+            <span><a href="#sobreJudo">Sobre o Judô</a></span>
+            <span><a href="#eticaJudo">Ética do Judô</a></span>
+            <span><a href="#idDisciplina">Benefícios</a></span>
+            <span><a href="#sobreMim">Sobre Mim</a></span>
+        </div>
     
    </nav>
 
@@ -35,7 +35,7 @@
     <a href="./pageCadastro.html" class="btn cadastro">Cadastro</a>
    </div>
   </div>
- </header>
+</header>
 
     <!-- 2. SEÇÃO HERO -->
  <section class="hero">
@@ -48,6 +48,7 @@
  </section>
     
     <!-- 3. SEÇÃO CONTEÚDO 1: SURGIMENTO + MOTIVOS -->
+<span id="sobreJudo">
     <section class="secao-conteudo">
         <div class="container-conteudo">
             
@@ -79,12 +80,13 @@
                 <div class="motivo-titulo">Esporte para Todos:</div>
                 <p class="paragrafo">É uma modalidade acessível e amplamente praticada, ideal para qualquer criança, focando na técnica em vez da força.</p>
             </div>
-            
+        
         </div>
     </section>
-
+</span>
 
     <!-- 3. SEÇÃO CONTEÚDO 1: SURGIMENTO + MOTIVOS -->
+<span id="eticaJudo">
     <section class="secao-conteudo">
         <div class="container-conteudo">
 
@@ -112,31 +114,29 @@
         </div>
     </section>
     </section>
-
-    <!-- 5. SEÇÃO CONTEÚDO 3: COMO A DISCIPLINA AJUDA (Quarta Print - Texto e Foto) -->
-<section id="idDisciplina">
-    <section class="secao-full-bleed" style="background-color: #16578D;">
+</span>
+    <!-- 5. SEÇÃO CONTEÚDO 3: COMO A DISCIPLINA AJUDA -->
+<span id="idDisciplina">
+    <section class="secao-full-bleed">
         <div class="container-full-bleed">
-            <div class="texto-full-bleed" style="flex: 2;">
-                <h2 class="titulo-full-bleed" style="border-bottom-color: var(--texto-hero);">Como Esta Disciplina Ajuda
+            <div class="texto-full-bleed">
+                <h2 class="titulo-full-bleed">Como Esta Disciplina Ajuda
                     as Crianças</h2>
                 <p>Mais do que uma prática física, o judô ensina valores fundamentais para a formação social e emocional
                     das crianças. Esses valores são transmitidos em cada aula, dentro e fora do dojo (local de treino),
                     e fazem parte de um código moral definido pelo próprio Jigoro Kano, virtudes que ajudam as crianças
                     a desenvolverem empatia, disciplina e cooperação.</p>
             </div>
-            <img src="https://institutoreacao.org.br/wp-content/uploads/2020/12/Como-o-judo-melhora-o-desempenho-do-cerebro-Quais-sao-os-beneficios-do-Judo.jpg"
-                alt="Crianças praticando Judô" class="imagem-circular"
-                style="width: 350px; height: 250px; border-radius: 0; clip-path: circle(50% at 50% 50%);">
+            <img src="./imagens/imagemDisciplina01.jpg"
+                alt="Crianças praticando Judô" class="imagem-circular">
         </div>
     </section>
-</section>
+</span>
 
 
-    <!-- 6. SEÇÃO CONTEÚDO 4: ESTUDO UFRGS (Quinta Print - Meninas no Kime) -->
-<section id="idJudoAjuda">
-    <section class="secao-full-bleed" style="background-color: var(--judo-blue-secundario);">
-        <div class="container-full-bleed" style="flex-direction: row-reverse;">
+    <!-- 6. SEÇÃO CONTEÚDO 4: ESTUDO UFRGS -->
+    <section class="secao-full-bleed">
+        <div class="container-full-bleed">
             <div class="texto-full-bleed">
                 <p>Esses valores fazem do judô uma ferramenta poderosa na formação do caráter infantil. De acordo com um
                     estudo desenvolvido pela Universidade Federal do Rio Grande do Sul (UFRGS), a prática do judô em
@@ -148,14 +148,14 @@
                     e às regras do dojo, proporcionou mudanças positivas na convivência e no comportamento social das
                     crianças.</p>
             </div>
-            <img src="https://viverbem.unimedbh.com.br/wp-content/uploads/2021/11/artes-marciais-para-criancas.jpg"
-                alt="Meninas em posição de Judô" class="imagem-circular"
-                style="width: 350px; height: 250px; border-radius: 0; clip-path: circle(50% at 50% 50%);">
+            <img src="./imagens/imagemDisciplina02.jpg"
+                 class="imagem-circular">
         </div>
     </section>
-</section>
+</span>
 
     <!-- 7. SEÇÃO CONTEÚDO 5: SOBRE MIM  -->
+<span id="sobreMim">
     <section class="sobre-mim-container">
         <h2 class="titulo-caixa">Sobre Mim</h2>
         <div class="sobre-mim-conteudo">
@@ -174,16 +174,17 @@
             <img src="./imagens/minhaFoto.png" class="sobre-mim-foto">
         </div>
     </section>
-
+</span>
        <!-- 8. FOOTER -->
+
      <footer>
         <div class="footer-container">
             <div class="contato">
                 <h3>Precisa de um contato mais direto?</h3>
-                <ul>
+                <div>
                     <li>igor.fonseca@sptech.school</li>
                     <li>(11) 94064-2971</li>
-                </ul>
+                </div>
             </div>
             <div class="logo-container">
                 <div class="footer-logo"></div>

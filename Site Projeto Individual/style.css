@@ -17,7 +17,7 @@
 }
 /* FIM IMPORT E VARIÁVEIS */
 
-/* COMEÇO BODY E RESET */
+/* COMEÇO BODY */
 body {
     font-family: 'Ubuntu', sans-serif;
     margin: 0;
@@ -26,7 +26,7 @@ body {
     scroll-behavior: smooth;
     min-height: 100vh;
 }
-/* FIM BODY E RESET */
+/* FIM BODY */
 
 /* COMEÇO HEADER */
 header {
@@ -42,7 +42,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .navbar {
@@ -67,12 +67,12 @@ header {
     border-radius: 50%;
     border: 2px solid var(--branco);
     padding: 4px;
-    background-image: url('');
+    background-image: url('./imagens/logoJudo.png');
     background-size: contain;
 }
 /* FIM HEADER */
 
-/* COMEÇO MENU NAVEGACAO (ul.menu) */
+/* COMEÇO MENU NAVEGACAO */
 .menu {
     display: flex;
     justify-content: flex-start;
@@ -84,7 +84,7 @@ header {
     align-items: center;
 }
 
-.menu li a {
+.menu span a {
     color: var(--branco);
     text-decoration: none;
     font-weight: 600;
@@ -93,7 +93,7 @@ header {
     white-space: nowrap;
 }
 
-.menu li a:hover {
+.menu span a:hover {
     color: var(--texto-hero);
 }
 /* FIM MENU NAVEGACAO */
@@ -348,13 +348,13 @@ footer {
     margin-bottom: 0.5rem;
 }
 
-.contato ul {
+.contato div {
     list-style: none;
     padding: 0;
     margin: 0.5rem 0;
 }
 
-.contato ul li {
+.contato div li {
     margin-bottom: 0.25rem;
 }
 
