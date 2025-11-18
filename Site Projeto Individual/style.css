@@ -1,0 +1,376 @@
+/* COMEÇO IMPORT E VARIÁVEIS */
+.ubuntu-bold {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+    --judo-blue-principal: #03009B; 
+    --judo-blue-secundario: #0072C4; 
+    --fundo-caixa: #E4E4E4; 
+    --titulo-secao: #16578D; 
+    --fundo-secao: #D9D9D9; 
+    --branco: #FFFFFF;
+    --texto-hero: #FFDD00; 
+    --altura-header: 80px; 
+}
+/* FIM IMPORT E VARIÁVEIS */
+
+/* COMEÇO BODY E RESET */
+body {
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-top: var(--altura-header); 
+    scroll-behavior: smooth;
+    min-height: 100vh;
+}
+/* FIM BODY E RESET */
+
+/* COMEÇO HEADER */
+header {
+    width: 100%;
+    height: var(--altura-header);
+    background-color: var(--judo-blue-principal);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--branco);
+    
+    /* PROPRIEDADES PARA FIXAR NO TOPO */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    padding-right: 2rem;
+}
+
+.logo-icone {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--branco);
+    padding: 4px;
+    background-image: url('');
+    background-size: contain;
+}
+/* FIM HEADER */
+
+/* COMEÇO MENU NAVEGACAO (ul.menu) */
+.menu {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+    gap: 1.5rem; 
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    align-items: center;
+}
+
+.menu li a {
+    color: var(--branco);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+    padding: 0.5rem 0;
+    white-space: nowrap;
+}
+
+.menu li a:hover {
+    color: var(--texto-hero);
+}
+/* FIM MENU NAVEGACAO */
+
+/* COMEÇO BOTOES (div.buttons) */
+.buttons {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.buttons .btn {
+    padding: 0.5rem 1.25rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    background-color: var(--branco);
+    color: var(--judo-blue-principal);
+    border: 1px solid var(--branco);
+}
+
+.buttons .btn:hover {
+    background-color: #E5E7EB;
+}
+/* FIM BOTOES */
+
+/* COMEÇO SECAO HERO */
+.hero {
+    /* Imagem de crianças desfocada (Primeira Print) */
+    background-image: url('./imagens/felicidade.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 90vh; 
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    text-align: center;
+    color: var(--branco);
+    z-index: 10;
+    padding: 20px;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: var(--texto-hero);
+    line-height: 1.2;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+.hero-content p {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0 auto;
+    max-width: 800px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+/* FIM SECAO HERO */
+
+/* COMEÇO SECAO CONTEUDO (Padrão 2 Colunas - Print 2) */
+.secao-conteudo {
+    background-color: var(--fundo-secao);
+    padding: 4rem 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.container-conteudo {
+    max-width: 1000px;
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+}
+
+.caixa-texto {
+    background-color: var(--fundo-caixa);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+.titulo-caixa {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--titulo-secao);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--judo-blue-secundario);
+}
+
+.paragrafo {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.motivo-titulo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--judo-blue-principal);
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.motivo-titulo:first-child {
+    margin-top: 0;
+}
+/* FIM SECAO CONTEUDO */
+
+/* COMEÇO SECAO FULL BLEED (Geral para outras páginas) */
+.secao-full-bleed {
+    background-color: var(--judo-blue-secundario);
+    padding: 4rem 1rem;
+    color: var(--branco);
+    display: flex;
+    justify-content: center;
+}
+
+.container-full-bleed {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.titulo-full-bleed {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--branco);
+    width: fit-content;
+}
+
+.imagem-circular {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--branco);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+}
+
+.texto-full-bleed {
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.lista-pilares {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+}
+
+.lista-pilares li {
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+}
+
+.lista-pilares strong {
+    font-weight: 700;
+    color: var(--texto-hero);
+}
+
+/* Estilo específico para o bloco "Sobre Mim" (que estará em sobre_mim.html) */
+.sobre-mim-container {
+    padding: 4rem 1rem;
+    background-color: var(--fundo-secao);
+}
+
+.sobre-mim-container .titulo-caixa {
+    color: var(--titulo-secao);
+    border-bottom: 3px solid var(--judo-blue-secundario);
+    width: fit-content;
+    margin: 0 auto 2rem auto;
+}
+
+.sobre-mim-conteudo {
+    display: flex;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 2rem;
+}
+
+.sobre-mim-texto {
+    flex: 2;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.sobre-mim-foto {
+    flex: 1;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid var(--judo-blue-secundario);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+/* FIM SECAO FULL BLEED */
+
+
+/* COMEÇO RODAPE */
+footer {
+    background-color: var(--judo-blue-principal);
+    color: var(--branco);
+    padding: 2rem 1rem 1rem 1rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.contato {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.contato h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.contato ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.contato ul li {
+    margin-bottom: 0.25rem;
+}
+
+.footer-logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--branco);
+    flex-shrink: 0;
+    background-image: url('./imagens/logoJudo.png');
+    background-size: contain;
+}
+
+.direitos {
+    text-align: center;
+    font-size: 0.875rem;
+}
+/* FIM RODAPE */

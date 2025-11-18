@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    <link rel="stylesheet" href="styleLogin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container_logo">
+            <a href="index.html"><img src="./Assets/logo_ecolight_transparente_branca.png" alt=""></a>
+        </div>
+        <div class="container_links">
+            <nav class="nav_1">
+                <span>
+                    <a href="./index.html">Home</a>
+                </span>
+                <span>
+                    <a href="./index.html#idQuemSomos">Sobre nós</a>
+                </span>
+                <span>
+                    <a href="./index.html#idNossosServicos">Serviços</a>
+                </span>
+                <span>
+                    <a href="./index.html#idEntreContato">Contato</a>
+                </span>
+                <span>
+                    <a href="./simuladorFinanceiro.html">Simulador financeiro</a>
+                </span>
+            </nav>
+            <nav class="nav_2">
+                <span onclick="buttonMenu()" id="buttonMenu_dropdown">Menu <img src="./Assets/arrow_bottom.png" alt=""></span>
+                <div id="menu_dropdown" style="display: none;">
+                    <span>
+                        <a href="./index.html">Home</a>
+                    </span>
+                    <span>
+                        <a href="./index.html#idQuemSomos">Sobre nós</a>
+                    </span>
+                    <span>
+                        <a href="">Serviços</a>
+                    </span>
+                    <span>
+                        <a href="">Contato</a>
+                    </span>
+                    <span>
+                        <a href="./simuladorFinanceiro.html">Simulador financeiro</a>
+                    </span>
+                </div>
+            </nav>
+            <div class="buttons">
+                <button class="cadastro"><a href="./pageCadastro.html">Cadastre-se</a></button>
+            </div>
+        </div>
+        
+    </header>
+
+    <main>
+        <div class="container_login">
+            <section class="visual">
+                <h1>Bem-vindo de volta à EcoLight</h1>
+                <img src="./Assets/logo_ecolight_transparente_branca.png" alt="">
+                <span><a href="./index.html">Página institucional</a></span>
+            </section>   
+            <section class="interacao">
+                <div class="conteudo">
+                    <h2>Preencha seus dados e tenha acesso a sua conta!</h2>
+                    
+                    <label for="input_email">E-mail</label>
+                    <input type="text" name="" id="input_email" oninput="valEmail()" placeholder="Insira seu e-mail">
+                    <div id="div_mensagemEmail"></div>
+                    <label for="input_password">Senha</label>
+                    <input type="password" name="" id="input_password" oninput="valSenha()" placeholder="Insira sua senha">
+                    <div id="div_mensagemSenha"></div>
+                    <span>Esqueceu a senha? <a href="#">Clique aqui!</a></span>
+
+                    <button onclick="entrar()">Entrar</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script src="scriptLogin.js"></script>
+    <script src="./menuDropdown.js"></script>
+</body>
+</html>
+
+<script>
+    function valEmail() {
+    var email = document.getElementById('input_email').value
+
+    var tamanho = email.length - 1
+
+
+    if (email.includes('@')) { // Não pode ter mais de 1 '@'
+        email = email.replace('@', '*')
+        if (email.includes('@')) {
+            div_mensagemEmail.innerHTML = 'O e-mail comporta apenas 1 "@".'
+        } else {
+            div_mensagemEmail.innerHTML = ''
+        }
+    } else {
+        div_mensagemEmail.innerHTML = ''
+    }
+
+    if (email[0] == '.' || (email[tamanho] == '.' && email[(tamanho - 1)] == '.')) { // Não deixa começar com ponto e nem ter 2 pontos seguidos
+        input_email.value = input_email.value.slice(0, -1)
+    }
+
+    if (email[tamanho] == ' ' || email[tamanho] == ',' || email[tamanho] == ':' || email[tamanho] == ';') { // Não pode usar 'espaço', 'vírgula', ':', ';'
+        input_email.value = input_email.value.slice(0, -1)
+    }
+}
+
+function valSenha() {
+    var senha = document.getElementById('input_password').value
+    var tamanho = senha.length
+
+    if (tamanho > 50) { // Não deixa colocar mais que 50 caracteres
+        input_password.value = input_password.value.slice(0, -1)
+    }
+}
+
+function entrar() {
+    var emailCorreto = 'admin@ecolight.com'
+    var senhaCorreta = 'Urubu100'
+
+    var email = document.getElementById('input_email').value
+    var validacao = true
+
+    var senha = document.getElementById('input_password').value
+    var senhaMaiuscula = senha.toUpperCase()
+    var senhaMinuscula = senha.toLowerCase()
+    
+    div_mensagemEmail.innerHTML = ''
+    div_mensagemSenha.innerHTML = ''
+
+    if (email.length == 0 || senha.length == 0) {
+        validacao = false
+        div_mensagemSenha.innerHTML += `Preencha os campos de Email e Senha. <br>`
+    } else if (email.length > 255) { // Não pode ter mais de 255 caracteres
+        validacao = false
+        div_mensagemSenha.innerHTML += `O campo e-mail não comporta mais de 255 caracteres <br>`
+    } else if (email.endsWith('.')) { // Não pode terminar com ponto
+        validacao = false
+        div_mensagemSenha.innerHTML += `O campo e-mail não pode terminar com "." <br>`
+    } else if (email != emailCorreto || senha != senhaCorreta) {
+        div_mensagemSenha.innerHTML += 'Seu e-mail ou senha estão incorretos. <br>'
+        validacao = false
+    }
+
+    if (validacao) {
+        if (email == emailCorreto) {
+            if (senha == senhaCorreta) {
+                window.location.href = './dashboard.html'
+            } else {
+                alert(`Senha Incorreta.`)
+            }
+        } else {
+            input_password.value = ""
+            input_email.value = ""
+        }
+    }
+
+}
+
+</script>
