@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Cadastro</title>
+    <link rel="stylesheet" href="./css/styleCadastro.css">
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo-container">
+                <div class="logo-icone" style = "background-image: url('./assets/logoJudo.png');"></div>
+            </div>
+
+            <nav>
+                <div class="menu">
+                    <span><a href="./index.html">Home</a></span>
+                    <span><a href="./index.html#sobreJudo">Sobre o Judô</a></span>
+                    <span><a href="./index.html#eticaJudo">Ética do Judô</a></span>
+                    <span><a href="./index.html#idDisciplina">Benefícios</a></span>
+                    <span><a href="./index.html#sobreMim">Sobre Mim</a></span>
+                </div>
+
+            </nav>
+            <div class="buttons">
+                <a href="./pageLogin.html" class="btn login">Login</a>
+
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        <div class="container_cadastro">
+            <section class="visual">
+                <h2>Bem-vindo à tela de cadastro!</h2>
+                <img src="" alt="">
+                <span><a href="./dashboard.html">Dashboard</a></span>
+            </section>
+            <section class="interacao">
+                <div class="conteudo">
+                    <h2>Preencha os dados para se cadastrar!</h2>
+
+                    <label for="input_nomeUsuario">Nome do Usuário</label>
+                    <input type="text" id="input_nomeUsuario" oninput="valNome()"
+                        placeholder="Insira o nome do colaborador">
+
+                    <label for="input_emailUsuario">E-mail do Usuário</label>
+                    <input type="text" id="input_emailUsuario" oninput="valEmail()"
+                        placeholder="Insira o e-mail do colaborador">
+                    <div id="div_mensagemEmail"></div>
+
+                    <label for="input_dtNasc">Data de Nascimento</label>
+                    <input type="date" id="input_dtNasc">
+                    <div id="div_mensagemDtNasc"
+                        style="color: red; font-size: 0.8rem; margin-left: 1rem; margin-top: -0.5rem;"></div>
+
+                    <label for="input_senhaUsuario">Senha</label>
+                    <input type="password" id="input_senhaUsuario" oninput="valSenha()" placeholder="Insira a senha">
+                    <div id="div_mensagemSenha"></div>
+
+                    <label for="input_repetirSenhaUsuario">Repetir Senha</label>
+                    <input type="password" id="input_repetirSenhaUsuario" oninput="valRepetirSenha()"
+                        placeholder="Repita a senha inserida">
+                    <div id="div_mensagemRepetirSenha"></div>
+
+                    <button onclick="entrar()">Cadastrar</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+</body>
+
+</html>
+
+<script>
+    function entrar() {
+        var nomeVar = document.getElementById('input_nomeUsuario').value;
+        var emailVar = document.getElementById('input_emailUsuario').value;
+        var senhaVar = document.getElementById('input_senhaUsuario').value;
+        var repetirSenhaVar = document.getElementById('input_repetirSenhaUsuario').value;
+        var dtNascVar = document.getElementById('input_dtNasc').value; 
+
+     
+        if (nomeVar == "" || emailVar == "" || senhaVar == "" || repetirSenhaVar == "" || dtNascVar == "") {
+            alert("Preencha todos os campos!");
+            return false;
+        }
+
+        if (!valDtNasc()) {
+            alert("Você deve ser maior de 18 anos!");
+            return false;
+        }
+
+        if (senhaVar != repetirSenhaVar) {
+            alert("As senhas não conferem!");
+            return false;
+        }
+
+  
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar,
+                dtNascServer: dtNascVar 
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                alert("Cadastro realizado com sucesso! Redirecionando...");
+                setTimeout(() => {
+                    window.location = "pageLogin.html";
+                }, 2000);
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function valDtNasc() {
+        var inputDtNasc = document.getElementById('input_dtNasc');
+        var divMsg = document.getElementById('div_mensagemDtNasc');
+
+        if (!inputDtNasc.value) return false; 
+        var dataDigitada = new Date(inputDtNasc.value);
+        var dataAtual = new Date();
+
+        var idade = dataAtual.getFullYear() - dataDigitada.getFullYear();
+        var mes = dataAtual.getMonth() - dataDigitada.getMonth();
+
+        if (mes < 0 || (mes === 0 && dataAtual.getDate() < dataDigitada.getDate())) {
+            idade--;
+        }
+
+        if (idade < 18) {
+            divMsg.innerHTML = 'É preciso ser maior de 18 anos para se cadastrar.';
+            return false;
+        } else {
+            divMsg.innerHTML = '';
+            return true;
+        }
+    }
+
+
+</script>

@@ -6,7 +6,6 @@
 }
 
 :root {
-    /* Variáveis de Cores (Mesmas do Login/Home) */
     --judo-blue-principal: #03009B; 
     --judo-blue-secundario: #0072C4; 
     --fundo-caixa: #E4E4E4; 
@@ -14,7 +13,7 @@
     --fundo-secao: #D9D9D9; 
     --branco: #FFFFFF;
     --amarelo: #FFDD00; 
-    --altura-header: 100px;
+    --altura-header: 100px; 
 }
 /* FIM IMPORT E VARIÁVEIS */
 
@@ -72,10 +71,8 @@ header {
     border-radius: 50%;
     border: 2px solid var(--branco);
     padding: 4px;
-    background-image: url('./imagens/logoJudo.png'); 
     background-size: cover;
     background-position: center;
-    background-color: var(--judo-blue-principal); 
 }
 
 .menu {
@@ -120,6 +117,7 @@ header {
     color: var(--judo-blue-principal);
     border: 1px solid var(--branco);
 }
+
 /* FIM HEADER */
 
 /* COMEÇO MAIN (Centralização do Card) */
@@ -129,13 +127,12 @@ main {
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    margin-top: var(--altura-header);
 }
 
-.container_cadastro {
+.container_login {
     background-color: var(--fundo-caixa);
     width: 100%;
-    max-width: 500px; 
+    max-width: 450px;
     padding: 3rem 2rem;
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -147,19 +144,29 @@ main {
 
 /* COMEÇO CONTEÚDO DO CARD */
 
+/* Seção Visual (Título) */
 .visual {
     text-align: center;
     width: 100%;
     margin-bottom: 1.5rem;
+}
+
+.visual h1 {
+    font-size: 1.5rem;
+    font-weight: 500; 
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+
+.visual img, 
+.visual span,
+.interacao h2 { 
     display: none; 
 }
 
-.visual h2 {
-    font-size: 1.5rem;
-    color: #000;
-}
-
-
+/* Seção de Interação (Formulário) */
 .interacao {
     width: 100%;
 }
@@ -168,14 +175,6 @@ main {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-}
-
-.conteudo h2 {
-    text-align: center;
-    font-size: 1.4rem; 
-    font-weight: 400; 
-    margin-bottom: 1.5rem;
-    color: #000;
 }
 
 label {
@@ -204,15 +203,15 @@ input::placeholder {
     font-weight: 500;
 }
 
-
-#div_mensagemEmail, #div_mensagemSenha, #div_mensagemRepetirSenha {
+/* Mensagens de validação (JavaScript) */
+#div_mensagemEmail, #div_mensagemSenha {
     color: red;
     font-size: 0.8rem;
     margin-left: 1rem;
     margin-top: -0.5rem;
 }
 
-/* Botão Cadastrar */
+/* Botão Login */
 button {
     margin-top: 1.5rem;
     background-color: var(--judo-blue-principal);
@@ -221,7 +220,7 @@ button {
     padding: 0.8rem;
     border-radius: 8px; 
     font-size: 1.2rem;
-    font-weight: 700;
+    font-weight: 700;   
     cursor: pointer;
     text-transform: uppercase;
     transition: background-color 0.3s;

@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+
+:root {
+    --judo-blue: #03009B;
+    --branco: #FFFFFF;
+    --cinza-fundo: #f4f4f4;
+    --amarelo: #FFDD00;
+    --sucesso: #28a745;
+    --atencao: #ffc107;
+    --perigo: #dc3545;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+body {
+    background-color: var(--cinza-fundo);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    width: 100%;
+    height: 80px;
+    background-color: var(--judo-blue);
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex; /* Mantém o menu e logo alinhados */
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--branco);
+    background-color: white;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.menu li { list-style: none; }
+.menu a { color: var(--branco); text-decoration: none; font-weight: 700; }
+
+main {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+/* Removido display:flex para manter fluxo normal */
+#pontuacaoEJogo {
+    width: 100%;
+    max-width: 600px;
+}
+
+.card-central, #jogo, #pontuacao {
+    background-color: var(--branco);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    text-align: center;
+    /* Ajuste para que o #jogo não seja flex por padrão */
+    display: block; 
+}
+
+/* Resetando display para manter o fluxo de bloco */
+#jogo, #pontuacao {
+    display: none; /* Escondido inicialmente pelo JS */
+}
+
+/* Botões */
+button {
+    background-color: var(--judo-blue);
+    color: var(--branco);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    display: block; /* Garante que os botões fiquem um abaixo do outro */
+}
+
+button:disabled { background-color: #ccc; cursor: not-allowed; }
+
+/* Para as opções de rádio e labels */
+#opcoes .radio {
+    margin-right: 8px; /* Espaço entre o radio e o texto */
+    vertical-align: middle; /* Alinha o radio com o texto */
+    display: inline-block; /* Permite que o radio e label fiquem na mesma linha */
+}
+
+#opcoes .option {
+    cursor: pointer;
+    display: inline-block; /* Permite que o radio e label fiquem na mesma linha */
+    text-align: left;
+    margin-bottom: 10px; /* Espaçamento entre as opções */
+    line-height: 1.5; /* Altura da linha para melhor leitura */
+}
+
+/* Estilos de Resultado */
+.text-success-with-bg { color: var(--sucesso); font-weight: bold; }
+.text-warning-with-bg { color: var(--atencao); font-weight: bold; }
+.text-danger-with-bg { color: var(--perigo); font-weight: bold; }

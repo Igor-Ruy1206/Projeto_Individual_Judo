@@ -1,0 +1,236 @@
+/* COMEÇO IMPORT E VARIÁVEIS */
+.ubuntu-bold {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+    --judo-blue-principal: #03009B; 
+    --judo-blue-secundario: #0072C4; 
+    --fundo-caixa: #E4E4E4; 
+    --titulo-secao: #16578D; 
+    --fundo-secao: #D9D9D9; 
+    --branco: #FFFFFF;
+    --amarelo: #FFDD00; 
+    --altura-header: 100px; 
+}
+/* FIM IMPORT E VARIÁVEIS */
+
+/* COMEÇO RESET GERAL */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+    background-color: var(--branco);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+/* FIM RESET GERAL */
+
+/* COMEÇO HEADER */
+header {
+    width: 100%;
+    height: var(--altura-header);
+    background-color: var(--judo-blue-principal);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--branco);
+    /* FIXAR NO TOPO */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.navbar {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    padding-right: 2rem;
+}
+
+.logo-icone {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--branco);
+    padding: 4px;
+    background-image: url('./imagens/logoJudo.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.menu {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+    gap: 1.5rem; 
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    align-items: center;
+}
+
+.menu span a {
+    color: var(--branco);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+    padding: 0.5rem 0;
+    white-space: nowrap;
+}
+
+.menu span a:hover {
+    color: var(--amarelo);
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.buttons .btn {
+    padding: 0.5rem 1.25rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    background-color: var(--branco);
+    color: var(--judo-blue-principal);
+    border: 1px solid var(--branco);
+}
+
+/* FIM HEADER */
+
+/* COMEÇO MAIN (Centralização do Card) */
+main {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.container_login {
+    background-color: var(--fundo-caixa);
+    width: 100%;
+    max-width: 450px;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* FIM MAIN */
+
+/* COMEÇO CONTEÚDO DO CARD */
+
+/* Seção Visual (Título) */
+.visual {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.visual h1 {
+    font-size: 1.5rem;
+    font-weight: 500; 
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+
+.visual img, 
+.visual span,
+.interacao h2 { 
+    display: none; 
+}
+
+/* Seção de Interação (Formulário) */
+.interacao {
+    width: 100%;
+}
+
+.conteudo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+label {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #000;
+    margin-left: 0.5rem; 
+}
+
+input {
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px; 
+    border: none;
+    background-color: var(--branco);
+    font-size: 1rem;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 700; 
+    color: #666; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    outline: none;
+}
+
+input::placeholder {
+    color: #999;
+    font-weight: 500;
+}
+
+/* Mensagens de validação (JavaScript) */
+#div_mensagemEmail, #div_mensagemSenha {
+    color: red;
+    font-size: 0.8rem;
+    margin-left: 1rem;
+    margin-top: -0.5rem;
+}
+
+/* Botão Login */
+button {
+    margin-top: 1.5rem;
+    background-color: var(--judo-blue-principal);
+    color: var(--branco);
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px; 
+    font-size: 1.2rem;
+    font-weight: 700;   
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+    width: 50%; 
+    align-self: center; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    background-color: #000070;
+}
+/* FIM CONTEÚDO DO CARD */

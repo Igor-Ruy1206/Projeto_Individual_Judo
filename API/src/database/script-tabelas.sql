@@ -1,62 +1,45 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
+CREATE DATABASE judo;
 
-/*
-comandos para mysql server
-*/
+USE judo;
 
-CREATE DATABASE aquatech;
-
-USE aquatech;
-
-CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+CREATE TABLE responsavel (
+idCadastro INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(100),
+email VARCHAR(100),
+senha VARCHAR(20),
+dataNascimento DATE
 );
 
-CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+
+CREATE TABLE menor (
+idMenor INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(45),
+dataNascimento DATE,
+fkResponsavel INT,
+CONSTRAINT fkMenorResponsavel FOREIGN KEY (fkResponsavel) REFERENCES responsavel(idCadastro)
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+
+CREATE TABLE avaliacao (
+idAvaliacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+dataAvaliacao DATE,
+fkMenor INT NOT NULL,
+CONSTRAINT fkAvaliacaoMenor FOREIGN KEY (fkMenor) REFERENCES menor(idMenor)
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+
+CREATE TABLE pergunta (
+idPergunta INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+textoPergunta VARCHAR(255),
+categoria VARCHAR(45)
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
 
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+CREATE TABLE avaliacaoResposta (
+fkAvaliacao INT NOT NULL,
+fkPergunta INT NOT NULL,
+opcaoResposta VARCHAR(255),
+PRIMARY KEY (fkAvaliacao, fkPergunta),
+CONSTRAINT fkRespostaAvaliacao FOREIGN KEY (fkAvaliacao) REFERENCES avaliacao(idAvaliacao),
+CONSTRAINT fkRespostaPergunta FOREIGN KEY (fkPergunta) REFERENCES pergunta(idPergunta)
 );
-
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);

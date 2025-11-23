@@ -67,7 +67,6 @@ header {
     border-radius: 50%;
     border: 2px solid var(--branco);
     padding: 4px;
-    background-image: url('./imagens/logoJudo.png');
     background-size: cover;
     background-position: center;
 }
@@ -126,7 +125,7 @@ header {
 
 /* COMEÇO SECAO HERO */
 .hero {
-    background-image: url('./imagens/felicidade.jpeg');
+
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -365,7 +364,6 @@ footer {
     object-fit: cover;
     border: 5px solid var(--branco);
     flex-shrink: 0;
-    background-image: url('./imagens/logoJudo.png');
     background-size: cover;
     background-position: center;
 }

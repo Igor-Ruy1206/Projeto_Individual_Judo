@@ -1,0 +1,187 @@
+.ubuntu-bold {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+    --judo-blue: #03009B; 
+    --card-bg: #E6E6E6;   
+    --white: #FFFFFF;
+    --text-dark: #000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+body {
+    background-color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: var(--judo-blue);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+    width: 100%;
+}
+
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-icone {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--branco);
+    padding: 4px;
+    background-size: cover;
+    background-position: center;
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.btn-cadastro-header {
+    background-color: white;
+    color: var(--judo-blue);
+    padding: 8px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card-container {
+    background-color: var(--card-bg); 
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px; 
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+h2, h3 {
+    color: black;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    min-height: 60px; 
+}
+
+
+.header-quiz {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.categoria-label {
+    color: var(--judo-blue);
+    text-transform: uppercase;
+}
+
+.opcoes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+
+.opcao-input {
+    position: relative;
+    background-color: var(--white);
+    border-radius: 25px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.opcao-input input[type="radio"] {
+    display: none; 
+}
+
+.opcao-input label {
+    display: block;
+    padding: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #555;
+    transition: 0.2s;
+}
+
+.opcao-input input[type="radio"]:checked + label {
+    background-color: var(--judo-blue);
+    color: white;
+}
+
+.opcao-input:hover {
+    transform: scale(1.02);
+}
+
+
+.btn-primary {
+    background-color: var(--judo-blue);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #000075;
+}
+
+.btn-primary:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+
+.resultado-box {
+    margin: 30px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+}

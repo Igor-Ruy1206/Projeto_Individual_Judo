@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação Comportamental - Judô</title>
+    <link rel="stylesheet" href="styleQuizz.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body onload="onloadEsconder()">
+
+    <!-- Header --><header>
+        <div class="navbar">
+            <div class="logo-container">
+                <div class="logo-icone"></div>
+                <span style="color: white; font-weight: bold; margin-left: 10px;">Avaliação do Aluno</span>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="./index.html">Voltar ao Site</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div id="pontuacaoEJogo">
+            
+            <!-- Botão Iniciar -->
+             <div id="telaInicial" class="card-central">
+                <h1>Avaliação Comportamental</h1>
+                <p>Responda com honestidade para acompanhar a evolução.</p>
+                <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR AVALIAÇÃO</button>
+            </div>
+
+            <!-- Placar (Aparece no final) -->
+             <div id="pontuacao" class="flex-colunar width-fit-content border-primary">
+                <div id="pontuacaoFinalJogo" class="padding-8">
+                    <span id="pontuacaoFinal" class="width-fit-content">Pontuação Final:
+                        <span id="spanPontuacaoFinal">***</span>
+                    </span>
+                    <span id="msgFinal" class="width-fit-content">***</span>
+                </div>
+            </div>
+
+            <!-- Área do Jogo -->
+             <div id="jogo" class="width-fit-content border-secondary">
+
+                <div id="infoQuestao" class="padding-8">
+                    <span>Questão atual: <span id="spanNumeroDaQuestaoAtual"></span> de <span id="qtdQuestoes"></span></span>
+                </div>
+
+                <div id="perguntaDaQuestaoAtual" class="padding-8">
+                    <span id="spanQuestaoExibida" class="text-bold"></span>
+                </div>
+
+                <div id="infoAlternativas" class="padding-8">
+                    <span><em>Escolha uma opção abaixo:</em></span>
+                </div>
+
+                <!-- Estrutura IDÊNTICA ao exemplo original (input separado do label) --><!-- REMOVIDO: <span class="opcao-wrapper"> --><div id="opcoes" class="padding-8">
+                    <input type="radio" id="primeiraOpcao" name="option" class="radio" value="IDEAL" />
+                    <label for="primeiraOpcao" class="option" id="labelOpcaoUm"></label><br> 
+                    
+                    <input type="radio" id="segundaOpcao" name="option" class="radio" value="ACOMPANHAMENTO" />
+                    <label for="segundaOpcao" class="option" id="labelOpcaoDois"></label><br>
+                    
+                    <input type="radio" id="terceiraOpcao" name="option" class="radio" value="ABAIXO_MEDIA" />
+                    <label for="terceiraOpcao" class="option" id="labelOpcaoTres"></label><br>
+                </div>
+
+                <div id="botoes" class="padding-8">
+                    <button onclick="submeter()" id="btnSubmeter">Submeter resposta</button>
+                    <button onclick="avancar()" id="btnProx" disabled>Avançar para próxima questão</button>
+                    <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>Tentar novamente</button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="scriptQuizz.js"></script>
+</body>
+</html>
+
+<script>
+    // --- ESTRUTURA DE DADOS (Perguntas Comportamentais) ---
+// Cada pergunta tem um ID, Categoria, Texto e as descrições das opções.
+const listaDePerguntas = [
+    {
+        idPergunta: 1,
+        categoria: "Respeito",
+        pergunta: "Ao entrar e sair do Dojo, o aluno realiza a saudação (Rei) espontaneamente?",
+        opcoesTexto: {
+            IDEAL: "Sempre, demonstra respeito natural.",
+            ACOMPANHAMENTO: "Às vezes, precisa ser lembrado.",
+            ABAIXO_MEDIA: "Raramente ou nunca faz a saudação."
+        }
+    },
+    {
+        idPergunta: 2,
+        categoria: "Disciplina",
+        pergunta: "O aluno mantém o silêncio e presta atenção quando o Sensei está explicando?",
+        opcoesTexto: {
+            IDEAL: "Sempre atento e quieto.",
+            ACOMPANHAMENTO: "Dispersa às vezes, mas retoma.",
+            ABAIXO_MEDIA: "Conversa muito e atrapalha a aula."
+        }
+    },
+    {
+        idPergunta: 3,
+        categoria: "Amizade",
+        pergunta: "Como o aluno reage ao perder uma luta ou brincadeira no treino?",
+        opcoesTexto: {
+            IDEAL: "Aceita bem e cumprimenta o colega.",
+            ACOMPANHAMENTO: "Fica chateado, mas se controla.",
+            ABAIXO_MEDIA: "Chora excessivamente ou fica agressivo."
+        }
+    },
+    {
+        idPergunta: 4,
+        categoria: "Higiene/Cuidado",
+        pergunta: "O aluno mantém seu Judogi (kimono) limpo e dobrado corretamente?",
+        opcoesTexto: {
+            IDEAL: "Sempre impecável.",
+            ACOMPANHAMENTO: "Às vezes esquece de dobrar.",
+            ABAIXO_MEDIA: "Frequentemente sujo ou desleixado."
+        }
+    }
+];
+
+// --- PESOS PARA O CÁLCULO DA DASHBOARD ---
+const pesos = {
+    'IDEAL': 2,
+    'ACOMPANHAMENTO': 1,
+    'ABAIXO_MEDIA': 0
+};
+
+// --- VARIÁVEIS DE CONTROLE ---
+let numeroDaQuestaoAtual = 0;
+let respostasRegistradas = []; // Array para guardar o que vai pro BD: [{idPergunta: 1, resposta: 'IDEAL'}, ...]
+let quantidadeDeQuestoes = listaDePerguntas.length;
+
+// --- FUNÇÕES DE EXIBIÇÃO ---
+
+function onloadEsconder() {
+    document.getElementById('pontuacao').style.display = "none";
+    document.getElementById('jogo').style.display = "none";
+}
+
+function iniciarQuiz() {
+    document.getElementById('telaInicial').style.display = "none";
+    document.getElementById('pontuacao').style.display = "none"; // Só mostra no final
+    document.getElementById('jogo').style.display = "flex";
+
+    document.getElementById('qtdQuestoes').innerHTML = quantidadeDeQuestoes;
+    
+    // Reinicia variáveis
+    numeroDaQuestaoAtual = 0;
+    respostasRegistradas = [];
+    
+    preencherHTMLcomQuestaoAtual(0);
+}
+
+function preencherHTMLcomQuestaoAtual(index) {
+    const questao = listaDePerguntas[index];
+    
+    // Atualiza barra de progresso
+    const progresso = ((index) / quantidadeDeQuestoes) * 100;
+    document.getElementById('progressoAtual').style.width = `${progresso}%`;
+
+    // Preenche textos
+    document.getElementById("spanNumeroDaQuestaoAtual").innerHTML = index + 1;
+    document.getElementById("spanQuestaoExibida").innerHTML = questao.pergunta;
+    document.getElementById("spanCategoria").innerHTML = questao.categoria;
+
+    // Preenche o texto das labels de acordo com a pergunta atual
+    // Seleciona os SPANS dentro das labels para mudar o texto
+    const labels = document.querySelectorAll('.texto-opcao');
+    labels[0].innerHTML = questao.opcoesTexto.IDEAL;
+    labels[1].innerHTML = questao.opcoesTexto.ACOMPANHAMENTO;
+    labels[2].innerHTML = questao.opcoesTexto.ABAIXO_MEDIA;
+
+    // Reseta seleção e botões
+    desmarcarRadioButtons();
+    document.getElementById("btnSubmeter").disabled = false;
+    document.getElementById("btnProx").disabled = true;
+    
+    // Se for a última, muda o texto do botão próximo
+    if (index === quantidadeDeQuestoes - 1) {
+        document.getElementById("btnProx").innerHTML = "Finalizar Avaliação";
+    } else {
+        document.getElementById("btnProx").innerHTML = "Próxima Pergunta";
+    }
+}
+
+function desmarcarRadioButtons() {
+    const options = document.getElementsByName("option");
+    for (let i = 0; i < options.length; i++) {
+        options[i].checked = false;
+    }
+}
+
+// --- LÓGICA PRINCIPAL ---
+
+function submeter() {
+    const options = document.getElementsByName("option");
+    let selecionado = null;
+
+    // Verifica qual radio foi marcado
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].checked) {
+            selecionado = options[i].value; // 'IDEAL', 'ACOMPANHAMENTO' ou 'ABAIXO_MEDIA'
+            break;
+        }
+    }
+
+    if (!selecionado) {
+        alert("Por favor, selecione uma opção para continuar.");
+        return;
+    }
+
+    // Registra a resposta temporariamente
+    const questaoAtualObj = listaDePerguntas[numeroDaQuestaoAtual];
+    
+    respostasRegistradas.push({
+        idPergunta: questaoAtualObj.idPergunta,
+        resposta: selecionado,
+        pontos: pesos[selecionado]
+    });
+
+    console.log("Resposta Registrada:", respostasRegistradas[respostasRegistradas.length -1]);
+
+    // Trava o botão de confirmar e libera o próximo
+    document.getElementById("btnSubmeter").disabled = true;
+    document.getElementById("btnProx").disabled = false;
+}
+
+function avancar() {
+    if (numeroDaQuestaoAtual < quantidadeDeQuestoes - 1) {
+        numeroDaQuestaoAtual++;
+        preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual);
+    } else {
+        finalizarJogo();
+    }
+}
+
+function finalizarJogo() {
+    document.getElementById('jogo').style.display = "none";
+    document.getElementById('pontuacao').style.display = "flex";
+
+    // Calcula Pontuação Total (Simulação para o usuário ver)
+    let pontuacaoTotal = 0;
+    let maximoPossivel = quantidadeDeQuestoes * 2; // Pois IDEAL vale 2
+
+    respostasRegistradas.forEach(item => {
+        pontuacaoTotal += item.pontos;
+    });
+
+    // Lógica de Feedback Visual
+    let percentual = (pontuacaoTotal / maximoPossivel) * 100;
+    let mensagem = "";
+    let classeCor = "";
+
+    if (percentual >= 80) {
+        mensagem = "Excelente! Comportamento exemplar.";
+        classeCor = "text-success-with-bg";
+    } else if (percentual >= 50) {
+        mensagem = "Bom, mas requer atenção em alguns pontos.";
+        classeCor = "text-warning-with-bg";
+    } else {
+        mensagem = "Atenção! Necessário reforço dos valores.";
+        classeCor = "text-danger-with-bg";
+    }
+
+    document.getElementById('spanPontuacaoFinal').innerHTML = `${pontuacaoTotal} / ${maximoPossivel}`;
+    
+    const divMsg = document.getElementById('msgFinal');
+    divMsg.innerHTML = mensagem;
+    divMsg.className = "width-fit-content " + classeCor; // Aplica cor
+
+    // Habilita botão de reiniciar
+    document.getElementById("btnTentarNovamente").style.display = "block";
+
+    // AQUI VOCÊ FARIA O FETCH PARA O SEU BACKEND
+    enviarDadosParaAPI(pontuacaoTotal);
+}
+
+function tentarNovamente() {
+    location.reload();
+}
+
+// --- SIMULAÇÃO DE ENVIO PARA API (Node.js / MySQL) ---
+function enviarDadosParaAPI(pontuacaoFinal) {
+    console.log("--- ENVIANDO DADOS PARA O BANCO DE DADOS ---");
+    
+    const payload = {
+        fkMenor: 1, // Exemplo: ID do aluno vindo da sessão
+        fkResponsavel: 1, // Exemplo: ID do pai vindo da sessão
+        dataAvaliacao: new Date().toISOString(),
+        notaGeral: pontuacaoFinal,
+        detalhes: respostasRegistradas // Array com {idPergunta, resposta} para a tabela N:N
+    };
+
+    console.log("JSON a ser enviado:", JSON.stringify(payload, null, 2));
+    
+    // Exemplo real seria:
+    /*
+    fetch('/api/avaliacao/salvar', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    }).then(...)
+    */
+    alert("Avaliação concluída! Dados (simulados) enviados para o sistema.");
+}
+</script>

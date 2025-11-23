@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação Comportamental - Judô</title>
+    <link rel="stylesheet" href="./css/styleQuizz.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body onload="iniciarQuiz()"> <header>
+        <div class="navbar">
+            <div class="logo-icone" style = "background-image: url('./assets/logoJudo.png');"></div> <nav>
+                <ul class="menu">
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./index.html#sobreJudo">Sobre o Judô</a></li>
+                    <li><a href="./index.html#eticaJudo">Ética do Judô</a></li>
+                    <li><a href="./index.html#idDisciplina">Benefícios</a></li>
+                    <li><a href="./index.html#sobreMim">Sobre Mim</a></li>
+                </ul>
+            </nav>
+    </header>
+
+    <main>
+        <div class="card-container">
+            
+            <div id="telaInicial" style="display: none;">
+                <h2>Avaliação do Pequeno Judoca</h2>
+                <p>Responda com sinceridade para acompanharmos a evolução.</p>
+                <button onclick="iniciarQuiz()" class="btn-primary">COMEÇAR</button>
+            </div>
+
+            <div id="jogo">
+                <div class="header-quiz">
+                    <span class="categoria-label" id="spanCategoria">CATEGORIA</span>
+                    <span class="contador">Questão <span id="spanNumeroDaQuestaoAtual">1</span>/16</span>
+                </div>
+
+                <h3 id="spanQuestaoExibida">Carregando pergunta...</h3>
+
+                <div class="opcoes-container">
+                    <div class="opcao-input">
+                        <input type="radio" name="option" id="opt1" value="1">
+                        <label for="opt1">Nunca</label>
+                    </div>
+
+                    <div class="opcao-input">
+                        <input type="radio" name="option" id="opt2" value="2">
+                        <label for="opt2">Raramente</label>
+                    </div>
+
+                    <div class="opcao-input">
+                        <input type="radio" name="option" id="opt3" value="3">
+                        <label for="opt3">Às vezes</label>
+                    </div>
+
+                    <div class="opcao-input">
+                        <input type="radio" name="option" id="opt4" value="4">
+                        <label for="opt4">Frequentemente</label>
+                    </div>
+
+                    <div class="opcao-input">
+                        <input type="radio" name="option" id="opt5" value="5">
+                        <label for="opt5">Sempre</label>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button onclick="submeter()" id="btnSubmeter" class="btn-primary">CONFIRMAR RESPOSTA</button>
+                </div>
+            </div>
+
+            <div id="pontuacao" style="display: none;">
+                <h2>Avaliação Concluída!</h2>
+                <p>Os dados foram salvos com sucesso.</p>
+                
+                <div class="resultado-box">
+                    <span class="label-resultado">Pontuação Geral:</span>
+                    <h1 id="spanPontuacaoFinal">0</h1>
+                    <p id="msgFinal">Analisando comportamento...</p>
+                </div>
+
+                <button onclick="window.location.href='./dashboard.html'" class="btn-primary">IR PARA DASHBOARD</button>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+const listaDeQuestoes = [
+        { id: 1, categoria: "Cortesia", pergunta: "A criança costuma cumprimentar as pessoas ao chegar e sair dos ambientes?" },
+        { id: 2, categoria: "Cortesia", pergunta: "A criança utiliza palavras como 'por favor', 'obrigado' e 'com licença'?" },
+        { id: 3, categoria: "Coragem", pergunta: "A criança tenta realizar tarefas novas, mesmo demonstrando insegurança?" },
+        { id: 4, categoria: "Coragem", pergunta: "A criança assume seus erros sem tentar mentir ou esconder o que fez?" },
+        { id: 5, categoria: "Honestidade", pergunta: "A criança fala a verdade, mesmo quando sabe que pode gerar consequência?" },
+        { id: 6, categoria: "Honestidade", pergunta: "Se a criança encontra algo que não é dela, ela demonstra intenção de devolver?" },
+        { id: 7, categoria: "Honra", pergunta: "A criança cumpre o que prometeu ou combinou previamente com os pais?" },
+        { id: 8, categoria: "Honra", pergunta: "A criança respeita as regras das brincadeiras, sem tentar trapacear?" },
+        { id: 9, categoria: "Modéstia", pergunta: "Ao vencer algo, a criança age sem se gabar excessivamente ou humilhar?" },
+        { id: 10, categoria: "Modéstia", pergunta: "A criança aceita ajuda e reconhece quando não sabe fazer algo sozinha?" },
+        { id: 11, categoria: "Respeito", pergunta: "A criança ouve com atenção quando pais ou mais velhos estão falando?" },
+        { id: 12, categoria: "Respeito", pergunta: "A criança trata os colegas e familiares sem xingamentos ou agressão?" },
+        { id: 13, categoria: "Autocontrole", pergunta: "A criança consegue se acalmar sozinha após um momento de raiva?" },
+        { id: 14, categoria: "Autocontrole", pergunta: "A criança consegue esperar a sua vez em filas sem reclamar muito?" },
+        { id: 15, categoria: "Amizade", pergunta: "A criança compartilha brinquedos ou lanches voluntariamente?" },
+        { id: 16, categoria: "Amizade", pergunta: "A criança tenta ajudar quando vê alguém triste ou machucado?" }
+    ];
+
+
+    let numeroDaQuestaoAtual = 0;
+    let pontuacaoFinal = 0;
+    let quantidadeDeQuestoes = listaDeQuestoes.length;
+    let respostasDetalhadas = []; 
+
+    function onloadEsconder() {
+        document.getElementById('pontuacao').style.display = "none";
+        document.getElementById('jogo').style.display = "none";
+    }
+
+    function iniciarQuiz() {
+        document.getElementById('pontuacao').style.display = "none";
+        document.getElementById('jogo').style.display = "block"; 
+        document.getElementById('telaInicial').style.display = "none";
+
+        numeroDaQuestaoAtual = 0;
+        pontuacaoFinal = 0;
+        respostasDetalhadas = [];
+
+        preencherHTMLcomQuestaoAtual(0);
+
+        document.getElementById('btnSubmeter').disabled = false;
+ 
+    }
+
+    function preencherHTMLcomQuestaoAtual(index) {
+        habilitarAlternativas(true);
+        const questaoAtual = listaDeQuestoes[index];
+        numeroDaQuestaoAtual = index;
+
+
+        document.getElementById("spanNumeroDaQuestaoAtual").innerText = index + 1;
+        document.getElementById("spanCategoria").innerText = questaoAtual.categoria; 
+        document.getElementById("spanQuestaoExibida").innerText = questaoAtual.pergunta;
+
+
+        const btn = document.getElementById('btnSubmeter');
+        btn.innerText = "CONFIRMAR RESPOSTA";
+        btn.onclick = submeter;
+        btn.disabled = false;
+
+        limparCoresBackgroundOpcoes();
+        desmarcarRadioButtons();
+    }
+
+    function submeter() {
+        const options = document.getElementsByName("option"); 
+        let hasChecked = false;
+
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].checked) {
+                hasChecked = true;
+                break;
+            }
+        }
+
+        if (!hasChecked) {
+            alert("Por favor, escolha uma frequência para continuar.");
+            return;
+        }
+
+
+        checarResposta(); 
+        habilitarAlternativas(false);
+
+
+        const btn = document.getElementById('btnSubmeter');
+        
+        if (numeroDaQuestaoAtual < quantidadeDeQuestoes - 1) {
+            btn.innerText = "PRÓXIMA QUESTÃO";
+            btn.onclick = avancar;
+        } else {
+            btn.innerText = "FINALIZAR AVALIAÇÃO";
+            btn.onclick = finalizarJogo;
+        }
+    }
+
+    function avancar() {
+        if (numeroDaQuestaoAtual < quantidadeDeQuestoes - 1) {
+            preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual + 1);
+        } else {
+            finalizarJogo();
+        }
+    }
+
+ 
+    function habilitarAlternativas(trueOrFalse) {
+        let opcaoEscolhida = trueOrFalse ? false : true;
+
+ 
+        document.getElementById('opt1').disabled = opcaoEscolhida;
+        document.getElementById('opt2').disabled = opcaoEscolhida;
+        document.getElementById('opt3').disabled = opcaoEscolhida;
+        document.getElementById('opt4').disabled = opcaoEscolhida;
+        document.getElementById('opt5').disabled = opcaoEscolhida;
+    }
+
+    function checarResposta() {
+        const options = document.getElementsByName("option");
+        const questaoAtualObj = listaDeQuestoes[numeroDaQuestaoAtual];
+
+        options.forEach((option) => {
+            if (option.checked) {
+                let valor = parseInt(option.value);
+                pontuacaoFinal += valor;
+
+
+                option.parentNode.style.backgroundColor = "#d4edda"; 
+                option.parentNode.style.border = "1px solid #c3e6cb";
+                option.parentNode.style.color = "#155724";
+
+                respostasDetalhadas.push({
+                    fkPergunta: questaoAtualObj.id,
+                    nota: valor
+                });
+            }
+        });
+    }
+
+    function limparCoresBackgroundOpcoes() {
+
+        const wrappers = document.querySelectorAll(".opcao-input");
+        wrappers.forEach(wrapper => {
+            wrapper.style.backgroundColor = "";
+            wrapper.style.border = "";
+            wrapper.style.color = "";
+        });
+    }
+
+    function desmarcarRadioButtons() {
+        const options = document.getElementsByName("option");
+        for (let i = 0; i < options.length; i++) {
+            options[i].checked = false;
+        }
+    }
+
+    function finalizarJogo() {
+        document.getElementById('jogo').style.display = "none";
+        document.getElementById('pontuacao').style.display = "flex";
+
+        let mensagem = "";
+        let corMensagem = "";
+        
+        if (pontuacaoFinal >= 70) {
+            mensagem = "Excelente! A criança demonstra ótima disciplina judoca.";
+            corMensagem = "green";
+        } else if (pontuacaoFinal >= 50) {
+            mensagem = "Bom comportamento, mas existem pontos de atenção.";
+            corMensagem = "orange";
+        } else {
+            mensagem = "Atenção necessária. Vamos reforçar os valores do Judô.";
+            corMensagem = "red";
+        }
+
+        document.getElementById('spanPontuacaoFinal').innerHTML = pontuacaoFinal;
+        document.getElementById('msgFinal').innerHTML = mensagem;
+        document.getElementById('msgFinal').style.color = corMensagem;
+
+        enviarDadosParaAPI();
+    }
+
+    function enviarDadosParaAPI() {
+        console.log("Enviando dados...");
+        const idMenor = sessionStorage.ID_USUARIO || 1; 
+
+        const dados = {
+            fkMenor: idMenor,
+            respostas: respostasDetalhadas 
+        };
+
+        fetch("/avaliacao/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados)
+        })
+        .then(resposta => {
+            if (resposta.ok) {
+                console.log("Dados salvos com sucesso!");
+            } else {
+                console.error("Erro ao salvar dados.");
+            }
+        })
+        .catch(erro => console.error("Erro na requisição: ", erro));
+    }
+</script>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    <link rel="stylesheet" href="./css/styleLogin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+    <div class="navbar">
+        <!-- LOGO -->
+        <div class="logo-container">
+            <div class="logo-icone" style = "background-image: url('./assets/logoJudo.png');"></div>
+        </div>
+
+ <nav>
+ 
+            <div class="menu">
+            <span><a href="./index.html">Home</a></span>
+            <span><a href="./index.html">Sobre o Judô</a></span>
+            <span><a href="./index.html#eticaJudo">Ética do Judô</a></span>
+            <span><a href="./index.html#idDisciplina">Benefícios</a></span>
+            <span><a href="./index.html#sobreMim">Sobre Mim</a></span>
+        </div>
+    
+   </nav>
+
+   <div class="buttons">
+    <a href="./pageCadastro.html" class="btn cadastro">Cadastro</a>
+   </div>
+  </div>
+</header>
+
+    <main>
+        <div class="container_login">
+            <section class="visual">
+                <h1>Bem-vindo de volta!</h1>
+                <img src="./Assets/logo_ecolight_transparente_branca.png" alt="">
+                <span><a href="./index.html">Página institucional</a></span>
+            </section>   
+            <section class="interacao">
+                <div class="conteudo">
+                    <h2>Preencha seus dados e tenha acesso a sua conta!</h2>
+                    
+                    <label for="input_email">E-mail</label>
+                    <input type="text" name="" id="input_email" oninput="valEmail()" placeholder="Insira seu e-mail">
+                    <div id="div_mensagemEmail"></div>
+                    <label for="input_password">Senha</label>
+                    <input type="password" name="" id="input_password" oninput="valSenha()" placeholder="Insira sua senha">
+                    <div id="div_mensagemSenha"></div>
+                    <span>Esqueceu a senha? <a href="#">Clique aqui!</a></span>
+
+                    <div id="div_erro" style="color: red; font-size: 0.9rem; text-align: center; margin-top: 10px;"></div>
+                    <div id="div_aguardar" style="display: none; text-align: center; margin-top: 10px;">Verificando...</div>
+
+                    <button onclick="entrar()">Entrar</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script src="scriptLogin.js"></script>
+    <script src="./menuDropdown.js"></script>
+</body>
+</html>
+
+<script>
+        function entrar() {
+            var emailVar = document.getElementById('input_email').value;
+            var senhaVar = document.getElementById('input_password').value;
+            var divErro = document.getElementById('div_erro');
+            var divAguardar = document.getElementById('div_aguardar');
+
+
+            divErro.innerHTML = "";
+            
+            if (emailVar == "" || senhaVar == "") {
+                divErro.innerHTML = "Preencha todos os campos para prosseguir!";
+                return false;
+            }
+
+
+            if (divAguardar) divAguardar.style.display = "block";
+
+            console.log("FORM LOGIN: ", emailVar);
+            console.log("FORM SENHA: ", senhaVar);
+
+
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    emailServer: emailVar,
+                    senhaServer: senhaVar
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!");
+
+                if (resposta.ok) {
+                    console.log(resposta);
+
+                    resposta.json().then(json => {
+                        console.log(json);
+                        console.log(JSON.stringify(json));
+
+                        
+                        sessionStorage.EMAIL_USUARIO = json.email;
+                        sessionStorage.NOME_USUARIO = json.nome;
+                        sessionStorage.ID_USUARIO = json.id; 
+
+                        setTimeout(function () {
+                            window.location = "./formulario.html"; 
+                        }, 1000); 
+                    });
+
+                } else {
+                    console.log("Houve um erro ao tentar realizar o login!");
+                    if (divAguardar) divAguardar.style.display = "none";
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        divErro.innerHTML = texto; 
+                    });
+                }
+
+            }).catch(function (erro) {
+                console.log(erro);
+                if (divAguardar) divAguardar.style.display = "none";
+                divErro.innerHTML = "Erro na conexão com a API.";
+            });
+
+            return false;
+        }
+    </script>
