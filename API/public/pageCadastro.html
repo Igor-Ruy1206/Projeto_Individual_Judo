@@ -142,7 +142,7 @@
         var idade = dataAtual.getFullYear() - dataDigitada.getFullYear();
         var mes = dataAtual.getMonth() - dataDigitada.getMonth();
 
-        if (mes < 0 || (mes === 0 && dataAtual.getDate() < dataDigitada.getDate())) {
+        if (mes < 0 || (mes == 0 && dataAtual.getDate() < dataDigitada.getDate())) {
             idade--;
         }
 

@@ -11,32 +11,25 @@ function iniciarAvaliacao(fkMenor) {
 function salvarRespostas(idAvaliacao, listaRespostas) {
     console.log("Model: Salvando respostas para avaliação " + idAvaliacao);
     
-    // Montando uma Query dinâmica para inserir tudo de uma vez
-    // Ex: INSERT INTO avaliacaoResposta VALUES (1,1,5), (1,2,3), ...
-    
     var instrucao = `
         INSERT INTO avaliacaoResposta (fkAvaliacao, fkPergunta, opcaoResposta) VALUES 
     `;
 
-    // Loop para concatenar os valores
     for (let i = 0; i < listaRespostas.length; i++) {
         var item = listaRespostas[i];
         instrucao += `(${idAvaliacao}, ${item.fkPergunta}, ${item.nota})`;
         
-        // Se não for o último item, adiciona vírgula. Se for, fecha com ponto e vírgula.
         if (i < listaRespostas.length - 1) {
             instrucao += ", ";
         } else {
             instrucao += ";";
         }
     }
-
     return database.executar(instrucao);
 }
 
-// Essa função será usada na Dashboard depois
-function buscarMetricas(idMenor) {
-    var instrucao = `
+function buscarDadosDashboard(idMenor) {
+    var instrucaoSql = `
         SELECT 
             p.categoria,
             ROUND(AVG(ar.opcaoResposta), 1) as media_pontos
@@ -52,11 +45,11 @@ function buscarMetricas(idMenor) {
         )
         GROUP BY p.categoria;
     `;
-    return database.executar(instrucao);
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
     iniciarAvaliacao,
     salvarRespostas,
-    buscarMetricas
+    buscarDadosDashboard
 };
