@@ -29,7 +29,6 @@
         <aside class="sidebar">
             <div class="user-info">
                 <p class="welcome-text">Bem vindo,</p>
-                <!-- Nome do usuário recuperado da sessão -->
                 <h2 class="user-name" id="b_usuario"></h2>
             </div>
             <div class="sidebar-card">
@@ -51,7 +50,7 @@
                     <div class="big-number" id="kpiPontuacaoFinal">0</div>
                 </div>
 
-                <!-- CARDS ESTÁTICOS -->
+
                 <div class="card kpi-green">
                     <p>Menor com disciplina ideal:</p>
                     <div class="range-number">65 a 80</div>
@@ -74,7 +73,6 @@
 
             </div>
 
-            <!-- GRÁFICO -->
             <div class="chart-wrapper">
                 <h3>Radar de Competências (Escala 0 a 10)</h3>
                 <div class="canvas-container">
@@ -89,31 +87,33 @@
 </html>
 
 <script>
-    // 1. Tenta pegar o nome do usuário da sessão (Padrão web-data-viz)
     if(sessionStorage.NOME_USUARIO) {
         document.getElementById('b_usuario').innerText = sessionStorage.NOME_USUARIO;
     }
 
-    // 2. Define o ID do menor. 
-    // IMPORTANTE: Se você ainda não tem login salvando idMenor na sessão, deixe '1' para testar.
-    var idMenor = sessionStorage.ID_MENOR || 1; 
+
+    var idMenorSession = sessionStorage.ID_MENOR;
+    var idMenor = 1; 
+    
+    if (idMenorSession && idMenorSession !== "undefined" && idMenorSession !== "null") {
+        idMenor = idMenorSession;
+    }
+    
+    console.log("ID do Menor processado: " + idMenor); 
 
     function obterDadosGrafico() {
-        console.log("Buscando dados para o menor ID: " + idMenor);
+        fetch(`/avaliacao/dashboard/${idMenor}`, { cache: 'no-store' })
 
-        // Chama a rota que criamos na API
         fetch(`/avaliacao/dashboard/${idMenor}`, { cache: 'no-store' })
         .then(function (response) {
             if (response.ok) {
-                // Se deu certo, converte a resposta para JSON
                 return response.json();
             } else {
                 console.error("Nenhum dado encontrado ou erro na API");
-                return []; // Retorna array vazio para não quebrar
+                return []; 
             }
         })
         .then(function (dadosDoBanco) {
-            // Chama a função que desenha o gráfico passando os DADOS REAIS
             plotarGrafico(dadosDoBanco);
         })
         .catch(function (erro) {
@@ -124,26 +124,20 @@
     function plotarGrafico(dados) {
         console.log("Dados recebidos do banco:", dados);
 
-        // Ordem fixa das categorias para o gráfico ficar organizado sempre igual
         var categoriasFixas = ['Cortesia', 'Coragem', 'Honestidade', 'Honra', 'Modéstia', 'Respeito', 'Autocontrole', 'Amizade'];
         
         var valores = [];
         var somaTotal = 0;
 
-        // --- LÓGICA DE TRADUÇÃO DOS DADOS ---
-        // Para cada categoria fixa, procuramos se existe valor vindo do banco
+
         for (var i = 0; i < categoriasFixas.length; i++) {
             var catAtual = categoriasFixas[i];
             
-            // Procura no array que veio do banco se tem essa categoria
             var registro = dados.find(item => item.categoria == catAtual);
 
             var notaFinal = 0;
 
             if (registro) {
-                // O banco devolve a média de 1 a 5 (ex: 3.5).
-                // Sua regra de negócio diz que o gráfico vai até 10.
-                // Então multiplicamos por 2.
                 notaFinal = Number(registro.media_pontos) * 2;
             }
 
@@ -151,24 +145,21 @@
             somaTotal += notaFinal;
         }
 
-        // --- ATUALIZAÇÃO DO DOM (TELA) ---
 
-        // 1. Atualiza o KPI "X" (Pontuação Final)
-        // Isso aqui torna o número grande responsivo!
         document.getElementById('kpiPontuacaoFinal').innerText = Math.round(somaTotal);
 
-        // 2. Configura e desenha o Gráfico
+
         var ctx = document.getElementById('graficoRadar').getContext('2d');
         
         new Chart(ctx, {
             type: 'radar',
             data: {
-                labels: categoriasFixas, // Legendas do gráfico
+                labels: categoriasFixas, 
                 datasets: [{
                     label: 'Nível de Disciplina',
-                    data: valores, // Os valores calculados com base no banco
-                    backgroundColor: 'rgba(0, 0, 156, 0.2)', // Azul transparente
-                    borderColor: '#00009C', // Azul Judô
+                    data: valores, 
+                    backgroundColor: 'rgba(0, 0, 156, 0.2)', 
+                    borderColor: '#00009C', 
                     borderWidth: 2,
                     pointBackgroundColor: '#fff',
                     pointBorderColor: '#00009C',
@@ -184,11 +175,10 @@
                         angleLines: { color: '#ccc' },
                         grid: { color: '#e0e0e0' },
                         pointLabels: { 
-                            font: { size: 14, family: 'Ubuntu' }, 
                             color: '#333' 
                         },
                         suggestedMin: 0,
-                        suggestedMax: 10, // Força o gráfico a ir de 0 a 10
+                        suggestedMax: 10, 
                         ticks: { 
                             stepSize: 2, 
                             backdropColor: 'transparent' 
@@ -196,7 +186,7 @@
                     }
                 },
                 plugins: {
-                    legend: { display: false } // Oculta legenda se quiser limpar o visual
+                    legend: { display: false }
                 }
             }
         });

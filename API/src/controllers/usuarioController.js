@@ -2,8 +2,6 @@ var usuarioModel = require("../models/usuarioModel");
 
 
 function autenticar(req, res) {
-    console.log("REQ.BODY CHEGOU ASSIM: ", req.body); 
-
     if (!req.body) {
         return res.status(400).send("ERRO: O corpo da requisição (req.body) está vazio/undefined. Verifique o app.js e o routes.");
     }
@@ -70,22 +68,28 @@ function cadastrar(req, res) {
         res.status(400).send("Sua senha está undefined!");
     } else {
 
+usuarioModel.cadastrar(nome, email, senha, dtNasc)
+            .then(function (resultado) {
+                
+                // PEGA O ID DO PAI QUE ACABOU DE SER CRIADO
+                var idNovoResponsavel = resultado.insertId;
 
-        usuarioModel.cadastrar(nome, email, senha, dtNasc)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+                // 2. Cadastra o Filho Automaticamente
+                usuarioModel.cadastrarMenorAutomatico(idNovoResponsavel)
+                    .then(function (resultadoMenor) {
+                        
+                        // Só agora devolve sucesso, com tudo pronto!
+                        res.json(resultado);
+                        
+                    }).catch(function (erroMenor) {
+                        console.log(erroMenor);
+                        res.status(500).json(erroMenor.sqlMessage);
+                    });
+
+            }).catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
     }
 }
 

@@ -1,7 +1,7 @@
 var database = require("../database/config")
 
 function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
+    console.log("ACESSEI O USUARIO MODEL function entrar(): ", email, senha)
     var instrucaoSql = `
         SELECT idCadastro, nome, email 
         FROM responsavel 
@@ -12,7 +12,7 @@ function autenticar(email, senha) {
 }
 
 function cadastrar(nome, email, senha, dtNasc) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha, dtNasc);
+    console.log("ACESSEI O USUARIO MODEL function cadastrar():", nome, email, senha, dtNasc);
     
     var instrucaoSql = `
        INSERT INTO responsavel (nome, email, senha, dataNascimento) VALUES ('${nome}', '${email}', '${senha}', '${dtNasc}');
@@ -21,7 +21,19 @@ function cadastrar(nome, email, senha, dtNasc) {
     return database.executar(instrucaoSql);
 }
 
+function cadastrarMenorAutomatico(idResponsavel) {
+    console.log("ACESSEI O USUARIO MODEL \n function cadastrarMenorAutomatico():", idResponsavel);
+    
+    var instrucaoSql = `
+        INSERT INTO menor (nome, dataNascimento, fkResponsavel) VALUES ('Pequeno Judoca', NOW(), ${idResponsavel});
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    cadastrarMenorAutomatico
 };
+
